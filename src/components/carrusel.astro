@@ -1,0 +1,139 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrusel con Astro.js y Terapia Ocupacional</title>
+    <style>
+        /* Estilo principal del carrusel */  
+        .carousel {
+            position: relative;
+            width: 200%; /* Ancho flexible con respecto al contenedor, ajustable */
+            max-width: 60%; /* Tamaño máximo para pantallas grandes */
+            overflow: hidden;
+            margin: 0 auto; /* Centrado horizontal */
+            background-color: purple;
+            border-radius: 20px; /* Bordes redondeados para mejorar la estética */
+        }
+
+        /* Contenedor de las imágenes */
+        .carousel-images {
+            display: flex;
+            transition: transform 1s ease-in-out;
+        }
+
+        /* Estilo de las imágenes dentro del carrusel */
+        .carousel img {
+            width: 100%; /* Las imágenes ocupan el 100% del contenedor */
+            height: auto; /* Mantener la proporción de las imágenes */
+            object-fit: cover; /* Asegura que las imágenes cubran todo el espacio disponible */
+        }
+
+        /* Estilo de los botones de navegación */
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 30px; /* Tamaño de los botones */
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%; /* Botones circulares */
+        }
+
+        /* Botón de retroceder (anterior) */
+        .carousel-button-prev {
+            left: 20px; /* Colocamos más cerca del borde izquierdo */
+        }
+
+        /* Botón de avanzar (siguiente) */
+        .carousel-button-next {
+            right: 20px; /* Colocamos más cerca del borde derecho */
+        }
+
+        /* Estilo de las imágenes sobre los botones */
+        .therapy-image {
+            position: absolute;
+            top: 20px;
+            left: 60%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            z-index: 15;
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 1024px) {
+            .carousel {
+                width: 95%; /* Aumenta el ancho en pantallas medianas */
+            }
+            .carousel-button {
+                font-size: 25px; /* Ajusta el tamaño de los botones en pantallas más pequeñas */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .carousel {
+                width: 100%; /* Asegura que el carrusel ocupe todo el ancho en pantallas pequeñas */
+                max-width: 100%; /* Quita el límite de ancho máximo */
+            }
+            .carousel-button {
+                font-size: 20px; /* Botones más pequeños en pantallas pequeñas */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel-button {
+                font-size: 18px; /* Reduce aún más el tamaño de los botones en pantallas muy pequeñas */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel">
+        <div class="carousel-images">
+            <!-- Imágenes del carrusel -->
+            <img src="/public/terapia floral.png.png" alt="Imagen 1">
+            <img src="/public/flores.jpg" alt="Imagen 2">
+            <img src="/public/terapia floral.jpg" alt="Imagen 3">
+        </div>
+
+        <!-- Botón de retroceder (anterior) -->
+        <button class="carousel-button carousel-button-prev">&#10094;</button> 
+
+        <!-- Botón de avanzar (siguiente) -->
+        <button class="carousel-button carousel-button-next">&#10095;</button> 
+    </div>
+
+    <!-- Script para los botones de navegación del carrusel -->
+    <script type="module">
+        // Iniciamos las variables
+        let index = 0;  
+        const images = document.querySelector('.carousel-images');
+        const totalImages = images.children.length;
+
+        // Función para cambiar la imagen a la siguiente
+        const nextImage = () => {
+            index = (index + 1) % totalImages; // Aumentar el índice y reiniciar cuando llega al final
+            images.style.transform = `translateX(-${index * 100}%)`; // Desplaza las imágenes
+        };
+
+        // Función para cambiar la imagen a la anterior  
+        const prevImage = () => {
+            index = (index - 1 + totalImages) % totalImages; // Disminuir el índice y reiniciar cuando llega al inicio
+            images.style.transform = `translateX(-${index * 100}%)`; // Desplaza las imágenes
+        };
+
+        // Asignamos los eventos de clic a los botones
+        document.querySelector('.carousel-button-next').addEventListener('click', nextImage);
+        document.querySelector('.carousel-button-prev').addEventListener('click', prevImage);
+
+        // Configuramos el movimiento automático cada 3 segundos
+        setInterval(nextImage, 3000); // Avanza cada 3 segundos
+    </script>
+</body>
+</html>
+
